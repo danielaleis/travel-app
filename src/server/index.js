@@ -1,6 +1,6 @@
 //Code from project4, needs to be changed
-// const dotenv = require('dotenv');
-// dotenv.config();
+const dotenv = require('dotenv');
+dotenv.config();
 // for using environmental variables and hide the api key
 
 var path = require('path')
