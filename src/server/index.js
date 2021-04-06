@@ -15,10 +15,10 @@ const fetch = require('node-fetch');
 // const apiKey = process.env.API_KEY
 // const lang = 'en';
 
-// const app = express();
+const app = express();
 
-// app.use(express.static('dist'));
-// app.use(cors());
+app.use(express.static('dist'));
+app.use(cors());
 
 /* Middleware*/
 app.use(bodyParser.urlencoded({

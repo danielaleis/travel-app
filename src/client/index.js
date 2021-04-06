@@ -2,7 +2,7 @@
 // import { inputChecker } from './js/inputChecker'
 
 import './styles/main.scss';
-import './styles/reset.scss';
+// import './styles/reset.scss';
 // import './styles/base.scss';
 // import './styles/header.scss';
 // import './styles/form.scss';
