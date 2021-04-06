@@ -1,7 +1,7 @@
 //Code from weather-journal-app needs to be changed
 
 // Setup empty JS object to act as endpoint for all routes
-projectData = {};
+// projectData = {};
 
 // Require Express to run server and routes
 const express = require('express');
@@ -39,18 +39,18 @@ function listening() {
 and returns the JavaScript object named projectData (above).
  'localhost:8000/all' will now trigger the GET request*/
 
- app.get('/all', getData);
-function getData(req, res) {
-     res.send(projectData);
-     console.log("Get funzt!");
- };
+//  app.get('/all', getData);
+// function getData(req, res) {
+//      res.send(projectData);
+//      console.log("Get funzt!");
+//  };
 
  //DAL: TODO - muss hier auch noch eine Post-Route hin? Ja
  // TODO muss das zweite Argument heiße wie das leere JS Objekt?
- app.post('/add', postData)
+//  app.post('/add', postData)
 
-function postData(req, res)  {
-    projectData = req.body;
-    res.send({ message: "Post funzt"})
-    console.log(req);
-}
+// function postData(req, res)  {
+//     projectData = req.body;
+//     res.send({ message: "Post funzt"})
+//     console.log(req);
+// }
