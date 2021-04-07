@@ -1,5 +1,5 @@
 // index.js from project4, needs to be changed
-// import { inputChecker } from './js/inputChecker'
+import { handleInput } from './js/app'
 
 import './styles/main.scss';
 import './styles/reset.scss';
@@ -10,11 +10,8 @@ import './styles/reset.scss';
 
 //console.log(checkForName);
 
-// // export {
-// //     inputChecker,
-//     //handleSubmit,
-   
-//    }
+export {
+   handleInput
+    }
 
-alert("I EXIST")
 console.log("CHANGE!!");

@@ -47,13 +47,11 @@ app.get('/', function (req, res) {
 
 
 //add post request 
-// Input auch im html anpassen!
-
 app.post("/geodata", async (req, res) => {
     let queryInput = "";
- //queryInput = "q=" + encodeURI(req.body.inputObject.input);
-    //  console.log(req.body);
-     queryInput = "q=Berlin"
+ queryInput = "q=" + encodeURI(req.body.location);
+     console.log(req.body);
+    //  queryInput = "q=Berlin"
     const fetchURL = (`${geonamesURL}?${geonamesApiKey}&${geonamesRows}&${queryInput}`)
     console.log(fetchURL);
     const apiData = await fetch(fetchURL, {
@@ -62,7 +60,13 @@ app.post("/geodata", async (req, res) => {
 
     try {
         const data = await apiData.json();
-        res.send(data)
+        let coordinates = {
+            lat: data.geonames[0].lat,
+            lng: data.geonames[0].lng
+        };
+        //create object to pass geodate to weatherAPI
+        console.log(coordinates)
+        res.send(coordinates)
     } catch (err) {
         console.log("error", err);
     }

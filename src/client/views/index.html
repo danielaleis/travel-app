@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <title>Travel App</title>
   <link href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -13,15 +12,21 @@
     <div class="holder headline">
       Travel App
     </div>
-    <div class="holder city">
-      <label for="city">Where do you want to travel?</label>
-      <input type="text" id="city" placeholder="enter name of the city">
+    <div class="holder location">
+      <label for="location">Where do you want to travel?</label>
+      <input type="text" id="location" placeholder="enter name of the location">
     </div>
-    <div class="holder date">
+   <!-- <div class="holder date">
       <label for="date">When are you going to travel?</label>
       <textarea class="myInput" id="date" placeholder="Enter your travel date here" rows="3" cols="50"></textarea>
-      <button id="generate" type="submit"> Click me! </button>
-    </div>
+    </div> -->
+    <!-- <form class="" onsubmit="return Client.handleSubmit(event)" method="post">
+      <textarea class="flex_item" id="name" type="text" name="input" value=""
+          placeholder="Paste the text or URL here, that you want to be analysed."></textarea>
+      <input class="button flex_item" type="submit" name="" value="analyse" onclick="return Client.handleSubmit(event)"
+          onsubmit="return Client.handleSubmit(event)">
+  </form> -->
+    <div> <button id="generate" type="submit"> Click me! </button></div>
     <div class="holder entry">
       <div class="title">The weather for your trip</div>
       <div id="entryHolder">
@@ -33,7 +38,6 @@
       </div>
     </div>
   </div>
-  <script src="app.js" type="text/javascript"></script>
 
 </body>
 

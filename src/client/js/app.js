@@ -1,45 +1,65 @@
+// Listening for click and then running getInput-Function
+document.getElementById("generate").addEventListener('click', handleInput);
+
+// Function that is triggered after user clicks the button
+function handleInput() {
+    console.log("input!");
+    const location = document.getElementById("location").value;
+    // const date = document.getElementById("date").value;
+    fetch("http://localhost:8080/geodata", {
+            method: "POST",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                location
+            }),
+        })
+        .then(res => res.json())
+        .then(function (res) {
+            console.log(res);
+            //updateUI(res);
+        })
+}
+
+
+
 //Code from weather-journal-project to be changed
 
-// Personal API Key for OpenWeatherMap API
-// Switched to metric system as described in the openweathermap FAQ
-// const baseURL = "http://api.openweathermap.org/data/2.5/weather?units=metric&q=";
-//const apiKey = "add env file";
-
-// Create a new date instance dynamically with JS. 
-// getMonth() shows values from 0 to 11, to get the current month 1 had to be added.
-// let d = new Date();
-// let newDate = d.getMonth() + 1 + '.' + d.getDate() + '.' + d.getFullYear();
-
-// Listening for click and then running getData-Function
-// document.getElementById("generate").addEventListener('click', getData);
-
-// Function to get the weather data
-// function getData() {
-//     const zip = document.getElementById("zip").value;
-//     if (zip.length != 5) {
-//         alert("Zipcode is invalid - please enter five digits!")
-//     } else {
-//         const feelings = document.getElementById("feelings").value;
 //         getWeather(baseURL, zip, apiKey)
 //             .then(function (weather) {
 //                 const city = weather.name;
 //                 const temp = weather.main.temp;
 //                 const tempFeels = weather.main.feels_like;
 
-                //posting weather data
-    //             postData('/add', {
-    //                 city,
-    //                 temp,
-    //                 tempFeels,
-    //                 feelings,
+/* Get data from Geonames */
+// const coordinates = await Client.getData('/geodata', {
+//     location: city
+// })
 
-    //             }).then(() => {
-    //                 // function to be called as soon as the weather data is ready
-    //                 updateUI();
-    //             });
+/* Get weatherdata for destination */
+// const weather = await Client.getData('/getWeather', {
+//     lat: coordinates.lat,
+//     lng: coordinates.lng
+// });
 
-    //         })
-    // }
+
+//posting weather data
+//             postData('/add', {
+//                 city,
+//                 temp,
+//                 tempFeels,
+//                 feelings,
+
+//             }).then(() => {
+//                 // function to be called as soon as the weather data is ready
+//                 updateUI();
+//             });
+
+//         })
+// }
 
 // };
 
