@@ -3,7 +3,7 @@ projectData = {};
 
 const dotenv = require('dotenv');
 dotenv.config();
-// for using environmental variables and hide the api key
+// for using environmental variables and hiding the api key
 
 var path = require('path')
 const express = require('express')
@@ -48,12 +48,11 @@ app.get('/', function (req, res) {
     res.send('dist/index.html');
 });
 
-
 //add post request 
 app.post("/geodata", async (req, res) => {
     let queryInput = "";
- queryInput = "q=" + encodeURI(req.body.location);
-     console.log(req.body);
+    queryInput = "q=" + encodeURI(req.body.location);
+    console.log(req.body);
     //  queryInput = "q=Berlin"
     const fetchURL = (`${geonamesURL}?${geonamesApiKey}&${geonamesRows}&${queryInput}`)
     console.log(fetchURL);
@@ -67,7 +66,7 @@ app.post("/geodata", async (req, res) => {
             lat: data.geonames[0].lat,
             lng: data.geonames[0].lng
         };
-        //create object to pass geodate to weatherAPI
+        //create object to later pass geodate to weatherAPI
         console.log(coordinates)
         res.send(coordinates)
     } catch (err) {
@@ -76,11 +75,11 @@ app.post("/geodata", async (req, res) => {
 });
 
 app.post("/weatherdata", async (req, res) => {
-//     let queryInput = "";
-//  queryInput = "q=" + encodeURI(req.body.location);
-//      console.log(req.body);
-     console.log("klappt!");
-     queryInput = "lat=52.5243&lon=-13.41053"
+    let queryInput = "";
+    console.log(req.body);
+    queryInput = (`lat=${req.body.coordinates.lat}&lon=${req.body.coordinates.lng}`)
+     console.log(queryInput);
+    //  queryInput = "lat=52.5243&lon=-13.41053"
     const fetchURL = (`${weatherbitURL}?${weatherbitApiKey}&${queryInput}`)
     console.log(fetchURL);
     const apiData = await fetch(fetchURL, {

@@ -1,12 +1,19 @@
-// Listening for click and then running getInput-Function
+// Listening for click and then running handleInput-Function
 document.getElementById("generate").addEventListener('click', handleInput);
 
 // Function that is triggered after user clicks the button
-function handleInput() {
+async function handleInput() {
     console.log("input!");
     const location = document.getElementById("location").value;
     // const date = document.getElementById("date").value;
-    fetch("http://localhost:8080/geodata", {
+    const coordinates = await callGeodatesApi(location);
+    console.log(coordinates);
+    const weatherResponse = await callWeatherApi(coordinates);
+    console.log(weatherResponse);
+}
+
+async function callGeodatesApi(location) {
+    const response = await fetch("http://localhost:8080/geodata", {
             method: "POST",
             cache: "no-cache",
             credentials: "same-origin",
@@ -16,15 +23,37 @@ function handleInput() {
             body: JSON.stringify({
                 location
             }),
+            
         })
-        .then(res => res.json())
-        .then(function (res) {
-            console.log(res);
-            //updateUI(res);
-        })
+        try {
+            const data = await response.json();
+            return data;
+        } catch(error) {
+            console.log("error", error);
+        }
 }
 
-
+async function callWeatherApi(coordinates) {
+    console.log(coordinates);
+    console.log("coordinates");
+    const response = await fetch("http://localhost:8080/weatherdata", {
+            method: "POST",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                coordinates
+            }),
+        })
+        try {
+            const data = await response.json();
+            return data;
+        } catch(error) {
+            console.log("error", error);
+        }
+}
 
 //Code from weather-journal-project to be changed
 
@@ -33,18 +62,6 @@ function handleInput() {
 //                 const city = weather.name;
 //                 const temp = weather.main.temp;
 //                 const tempFeels = weather.main.feels_like;
-
-/* Get data from Geonames */
-// const coordinates = await Client.getData('/geodata', {
-//     location: city
-// })
-
-/* Get weatherdata for destination */
-// const weather = await Client.getData('/getWeather', {
-//     lat: coordinates.lat,
-//     lng: coordinates.lng
-// });
-
 
 //posting weather data
 //             postData('/add', {
@@ -60,36 +77,6 @@ function handleInput() {
 
 //         })
 // }
-
-// };
-
-//call API with this function 
-// const getWeather = async (baseURL, zip, apiKey) => {
-//     const fetchURL = baseURL + zip + apiKey
-//     const res = await fetch(fetchURL)
-//     try {
-//         const newData = await res.json();
-//         return newData;
-//     } catch (error) {
-//         console.log("An error has occured", error);
-//     }
-// };
-
-// Make a POST request to our route:
-
-// const postData = async (url = '', data = {}) => {
-//     const response = await fetch(url, {
-//         // the method is set to POST because we are accessing the POST route we setup in server.js.
-//         method: 'POST',
-//         credentials: 'same-origin',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         // Body data type must match "Content-Type" header        
-//         body: JSON.stringify(data),
-//     });
-// }
-
 // async function updateUI() {
 //     // Get the gathered data and get it to be displayed in the weather-journal-app
 //     const response = await fetch('/all');
@@ -100,3 +87,4 @@ function handleInput() {
 //     document.querySelector('#date').innerHTML = "Todays date: " + newDate;
 //     document.querySelector('#content').innerHTML = "My feelings: " + latestData.feelings;
 // }
+// };
