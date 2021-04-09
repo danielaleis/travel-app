@@ -35,13 +35,11 @@ const geonamesURL = 'http://api.geonames.org/searchJSON'
 const geonamesRows = "maxRows=1";
 
 const weatherbitApiKey = `key=${process.env.Weatherbit_API_key}`;
-const weatherbitURL = 'https://api.weatherbit.io/v2.0/forecast/daily';
-// doc forecast: HTTPS: https://api.weatherbit.io/v2.0/forecast/daily
-// key=[key]
+const weatherbitForecast = 'https://api.weatherbit.io/v2.0/forecast/daily';
+const weatherbitCurrent = 'https://api.weatherbit.io/v2.0/current';
 // days=[integer] (optional: return a specific number of forecast days)
 // 16 - [DEFAULT] 16 days
-// doc: parameter z.B. &lat=38.123&lon=-78.543
-// Example: https://api.weatherbit.io/v2.0/forecast/daily?city=Raleigh,NC&key=API_KEY
+// Example_Current: https://api.weatherbit.io/v2.0/current?lat=35.7796&lon=-78.6382&key=API_KEY&include=minutely
 
 //add GET request 
 app.get('/', function (req, res) {
@@ -76,11 +74,16 @@ app.post("/geodata", async (req, res) => {
 
 app.post("/weatherdata", async (req, res) => {
     let queryInput = "";
-    console.log(req.body);
-    queryInput = (`lat=${req.body.coordinates.lat}&lon=${req.body.coordinates.lng}`)
-     console.log(queryInput);
-    //  queryInput = "lat=52.5243&lon=-13.41053"
-    const fetchURL = (`${weatherbitURL}?${weatherbitApiKey}&${queryInput}`)
+    let fetchURL = "";
+    if (req.body.trip.daysUntilTrip <= 16) {
+        queryInput = (`lat=${req.body.trip.lat}&lon=${req.body.trip.lng}`)
+        console.log(queryInput);
+        //  queryInput = "lat=52.5243&lon=-13.41053"
+        fetchURL = (`${weatherbitForecast}?${weatherbitApiKey}&${queryInput}`)
+    } else {
+        queryInput = (`lat=${req.body.trip.lat}&lon=${req.body.trip.lng}`)
+        fetchURL = (`${weatherbitCurrent}?${weatherbitApiKey}&${queryInput}`)
+    }
     console.log(fetchURL);
     const apiData = await fetch(fetchURL, {
         method: 'POST'

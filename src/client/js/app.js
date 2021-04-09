@@ -1,3 +1,5 @@
+const { calculateDate } = require("./handleDate");
+
 // Listening for click and then running handleInput-Function
 document.getElementById("generate").addEventListener('click', handleInput);
 
@@ -5,10 +7,18 @@ document.getElementById("generate").addEventListener('click', handleInput);
 async function handleInput() {
     console.log("input!");
     const location = document.getElementById("location").value;
-    // const date = document.getElementById("date").value;
+    const date = document.getElementById("date").value;
+    console.log(date);
     const coordinates = await callGeodatesApi(location);
+    let countdown = calculateDate(date);
+    let trip = {
+        lat: coordinates.lat,
+        lng: coordinates.lng,
+        date: date,
+        daysUntilTrip: countdown.countdown
+    };
     console.log(coordinates);
-    const weatherResponse = await callWeatherApi(coordinates);
+    const weatherResponse = await callWeatherApi(trip);
     console.log(weatherResponse);
 }
 
@@ -33,9 +43,9 @@ async function callGeodatesApi(location) {
         }
 }
 
-async function callWeatherApi(coordinates) {
-    console.log(coordinates);
-    console.log("coordinates");
+async function callWeatherApi(trip) {
+    console.log("trip");
+    console.log(trip);
     const response = await fetch("http://localhost:8080/weatherdata", {
             method: "POST",
             cache: "no-cache",
@@ -44,7 +54,7 @@ async function callWeatherApi(coordinates) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                coordinates
+                trip
             }),
         })
         try {
@@ -53,6 +63,10 @@ async function callWeatherApi(coordinates) {
         } catch(error) {
             console.log("error", error);
         }
+}
+
+export {
+    handleInput
 }
 
 //Code from weather-journal-project to be changed

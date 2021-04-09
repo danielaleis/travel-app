@@ -1,5 +1,7 @@
-// index.js from project4, needs to be changed
 import { handleInput } from './js/app'
+import { dateChecker } from './js/handleDate'
+import { calculateDate } from './js/handleDate'
+
 
 import './styles/main.scss';
 import './styles/reset.scss';
@@ -8,10 +10,10 @@ import './styles/reset.scss';
 // import './styles/form.scss';
 // import './styles/footer.scss';
 
-//console.log(checkForName);
-
 export {
-   handleInput
+   handleInput,
+   calculateDate,
+   dateChecker
     }
 
 console.log("CHANGE!!");
