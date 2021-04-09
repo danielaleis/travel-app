@@ -1,6 +1,6 @@
 import { handleInput } from './js/app'
 import { dateChecker } from './js/handleDate'
-import { calculateDate } from './js/handleDate'
+import { calculateDaysUntilTrip } from './js/handleDate'
 
 
 import './styles/main.scss';
@@ -12,7 +12,7 @@ import './styles/reset.scss';
 
 export {
    handleInput,
-   calculateDate,
+   calculateDaysUntilTrip,
    dateChecker
     }
 

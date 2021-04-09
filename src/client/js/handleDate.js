@@ -1,16 +1,16 @@
 
-function calculateDate(startTrip) {
+function calculateDaysUntilTrip(tripStartDate) {
     const today = new Date();
-    const start = new Date(startTrip);
-
+    const start = new Date(tripStartDate);
+    //calculating how many days until trip starts
     const countdown = Math.round((start.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))+1; 
 
-    // if(countdown +1 < 16) 
-    console.log("::: Running calculateDate :::", startTrip);
+    console.log("::: Running calculateDaysUntilTrip :::", tripStartDate);
     return { countdown: countdown};
+    //returning how many days until trip
 }
 
-export { calculateDate };
+export { calculateDaysUntilTrip };
 
 
 function dateChecker() {
