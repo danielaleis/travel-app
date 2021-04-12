@@ -1,4 +1,6 @@
-const { calculateDate } = require("./handleDate");
+const { calculateDaysUntilTrip } = require("./handleDate");
+const { dateChecker } = require("./handleDate");
+
 
 // Listening for click and then running handleInput-Function
 document.getElementById("generate").addEventListener('click', handleInput);
@@ -10,7 +12,7 @@ async function handleInput() {
     const date = document.getElementById("date").value;
     console.log(date);
     const coordinates = await callGeodatesApi(location);
-    let countdown = calculateDate(date);
+    let countdown = await calculateDaysUntilTrip(date);
     let trip = {
         lat: coordinates.lat,
         lng: coordinates.lng,
@@ -20,6 +22,8 @@ async function handleInput() {
     console.log(coordinates);
     const weatherResponse = await callWeatherApi(trip);
     console.log(weatherResponse);
+    const dateResponse = await dateChecker(weatherResponse, date)
+    console.log(dateResponse);
 }
 
 async function callGeodatesApi(location) {
@@ -68,6 +72,9 @@ async function callWeatherApi(trip) {
 export {
     handleInput
 }
+
+// Für pixabay: Asynchronous code (such as loading an image) 
+//runs outside of this event-loop and sends an event when it is done.
 
 //Code from weather-journal-project to be changed
 
