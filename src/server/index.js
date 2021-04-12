@@ -41,6 +41,13 @@ const weatherbitCurrent = 'https://api.weatherbit.io/v2.0/current';
 // 16 - [DEFAULT] 16 days
 // Example_Current: https://api.weatherbit.io/v2.0/current?lat=35.7796&lon=-78.6382&key=API_KEY&include=minutely
 
+const pixabayApiKey = `key=${process.env.Pixabay_API_key}`;
+const pixabayURL = 'https://pixabay.com/api/';
+const pixabayParameters = "image_type=photo&orientation=horizontal&safesearch=true&order=popular";
+// https://pixabay.com/api/?
+// key=21125110-814a4600f5e0102f5a6b4bc53&
+// q=yellow+flowers&image_type=photo
+
 //add GET request 
 app.get('/', function (req, res) {
     res.send('dist/index.html');
@@ -93,6 +100,29 @@ app.post("/weatherdata", async (req, res) => {
         const data = await apiData.json();
         console.log(data)
         res.send(data)
+    } catch (err) {
+        console.log("error", err);
+    }
+
+});
+
+app.post("/pixabaydata", async (req, res) => {
+    let queryInput = "";
+    // queryInput = "q=Berlin"
+    queryInput = "q=" + encodeURI(req.body.location);
+    let fetchURL = (`${pixabayURL}?${pixabayApiKey}&${queryInput}&${pixabayParameters}`)
+    console.log(fetchURL);
+    const apiData = await fetch(fetchURL, {
+        method: 'POST'
+    });
+
+    try {
+        const data = await apiData.json();
+        //const image = data.hits[0].webformatURL;
+        let image = {
+            url: data.hits[0].webformatURL
+        };
+        res.send(image)
     } catch (err) {
         console.log("error", err);
     }
