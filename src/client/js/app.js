@@ -24,6 +24,7 @@ async function handleInput() {
     console.log(weatherResponse);
     const dateResponse = await dateChecker(weatherResponse, date)
     console.log(dateResponse);
+    const response = await updateUI(trip);
 }
 
 async function callGeodatesApi(location) {
@@ -69,43 +70,16 @@ async function callWeatherApi(trip) {
         }
 }
 
+async function updateUI(trip) {
+    // Get the gathered data and get it to be displayed in the travel-app
+    document.querySelector('#result').innerHTML = "The weather on " + trip.date + " is ";
+    //document.querySelector('#weather').innerHTML = latestData.weather + " &#8451";
+    //document.querySelector('#countdown').innerHTML = "It is " + latestData.date + " until your trip starts";
+};
+
 export {
     handleInput
 }
 
 // Für pixabay: Asynchronous code (such as loading an image) 
 //runs outside of this event-loop and sends an event when it is done.
-
-//Code from weather-journal-project to be changed
-
-//         getWeather(baseURL, zip, apiKey)
-//             .then(function (weather) {
-//                 const city = weather.name;
-//                 const temp = weather.main.temp;
-//                 const tempFeels = weather.main.feels_like;
-
-//posting weather data
-//             postData('/add', {
-//                 city,
-//                 temp,
-//                 tempFeels,
-//                 feelings,
-
-//             }).then(() => {
-//                 // function to be called as soon as the weather data is ready
-//                 updateUI();
-//             });
-
-//         })
-// }
-// async function updateUI() {
-//     // Get the gathered data and get it to be displayed in the weather-journal-app
-//     const response = await fetch('/all');
-//     const latestData = await response.json();
-//     document.querySelector('#city').innerHTML = "The temperature in " + latestData.city + " is ";
-//     document.querySelector('#temp').innerHTML = Math.floor(latestData.temp) + " &#8451";
-//     document.querySelector('#tempFeels').innerHTML = "... but it feels like " + Math.floor(latestData.tempFeels) + " &#8451";
-//     document.querySelector('#date').innerHTML = "Todays date: " + newDate;
-//     document.querySelector('#content').innerHTML = "My feelings: " + latestData.feelings;
-// }
-// };
