@@ -43,7 +43,9 @@ const weatherbitCurrent = 'https://api.weatherbit.io/v2.0/current';
 
 const pixabayApiKey = `key=${process.env.Pixabay_API_key}`;
 const pixabayURL = 'https://pixabay.com/api/';
-const pixabayParameters = "image_type=photo&orientation=horizontal&safesearch=true&order=popular";
+const pixabayParameters = "image_type=photo&orientation=horizontal&safesearch=true&category=places";
+// &order=popular&category=places
+// &per_page=3
 // https://pixabay.com/api/?
 // key=21125110-814a4600f5e0102f5a6b4bc53&
 // q=yellow+flowers&image_type=photo
@@ -57,10 +59,7 @@ app.get('/', function (req, res) {
 app.post("/geodata", async (req, res) => {
     let queryInput = "";
     queryInput = "q=" + encodeURI(req.body.location);
-    console.log(req.body);
-    //  queryInput = "q=Berlin"
     const fetchURL = (`${geonamesURL}?${geonamesApiKey}&${geonamesRows}&${queryInput}`)
-    console.log(fetchURL);
     const apiData = await fetch(fetchURL, {
         method: 'POST'
     });
@@ -68,11 +67,12 @@ app.post("/geodata", async (req, res) => {
     try {
         const data = await apiData.json();
         let coordinates = {
+            location: req.body.location,
             lat: data.geonames[0].lat,
-            lng: data.geonames[0].lng
+            lng: data.geonames[0].lng,
+            country: data.geonames[0].countryName
         };
         //create object to later pass geodate to weatherAPI
-        console.log(coordinates)
         res.send(coordinates)
     } catch (err) {
         console.log("error", err);
@@ -84,8 +84,6 @@ app.post("/weatherdata", async (req, res) => {
     let fetchURL = "";
     if (req.body.trip.daysUntilTrip <= 16) {
         queryInput = (`lat=${req.body.trip.lat}&lon=${req.body.trip.lng}`)
-        console.log(queryInput);
-        //  queryInput = "lat=52.5243&lon=-13.41053"
         fetchURL = (`${weatherbitForecast}?${weatherbitApiKey}&${queryInput}`)
     } else {
         queryInput = (`lat=${req.body.trip.lat}&lon=${req.body.trip.lng}`)
@@ -108,19 +106,36 @@ app.post("/weatherdata", async (req, res) => {
 
 app.post("/pixabaydata", async (req, res) => {
     let queryInput = "";
-    // queryInput = "q=Berlin"
-    queryInput = "q=" + encodeURI(req.body.location);
-    let fetchURL = (`${pixabayURL}?${pixabayApiKey}&${queryInput}&${pixabayParameters}`)
+    let fetchURL = "";
+    let noDestinationPics = "";
+    if (req.body.trip.noDestinationPics == false) {
+        console.log("Destination returned")
+        queryInput = "q=" + encodeURI(req.body.trip.location);
+        fetchURL = (`${pixabayURL}?${pixabayApiKey}&${pixabayParameters}&${queryInput}`)
+    } else if (req.body.trip.noDestinationPics == true) {
+        console.log("Country returned")
+        queryInput = "q=" + encodeURI(req.body.trip.country);
+        fetchURL = (`${pixabayURL}?${pixabayApiKey}&${pixabayParameters}&${queryInput}`)
+        //Get a photo for the country, if no picture is found for the users destination
+    }
     console.log(fetchURL);
+
     const apiData = await fetch(fetchURL, {
         method: 'POST'
-    });
-
+    })
     try {
         const data = await apiData.json();
-        //const image = data.hits[0].webformatURL;
+        console.log(data);
+        let imageData = ""
+        if (data.total > 0) {
+            imageData = data.hits[0].webformatURL
+            noDestinationPics = false;
+        } else {
+            noDestinationPics = true;
+        }
         let image = {
-            url: data.hits[0].webformatURL
+            url: imageData,
+            noDestinationPics: noDestinationPics
         };
         res.send(image)
     } catch (err) {
