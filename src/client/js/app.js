@@ -2,8 +2,13 @@ const {
     calculateDaysUntilTrip
 } = require("./handleDate");
 const {
-    dateChecker
+    chooseForecastForTravelDate
 } = require("./handleDate");
+
+const {
+    validateInput
+} = require("./validateInput");
+
 
 
 // Listening for click and then running handleInput-Function
@@ -17,8 +22,9 @@ async function handleInput() {
 
     // get user input into the object
     trip.location = document.getElementById("location").value;
+    console.log(trip.location);
     trip.date = document.getElementById("date").value;
-
+if (validateInput(trip)){
     // Call Geodates-Api with trip-data provided
     const coordinates = await callApi("http://localhost:8080/geodata", trip);
     trip.lat = coordinates.lat;
@@ -44,11 +50,11 @@ async function handleInput() {
     const weatherResponse = await callApi("http://localhost:8080/weatherdata", trip);
     trip.weather = weatherResponse;
     console.log(trip);
-    const dateResponse = await dateChecker(weatherResponse, date);
+    const dateResponse = await chooseForecastForTravelDate(weatherResponse, date);
     console.log(dateResponse);
     const response = await updateUI(trip);
 
-}
+}}
 
 //Function to call all three apis
 async function callApi(queryURL, queryObject) {

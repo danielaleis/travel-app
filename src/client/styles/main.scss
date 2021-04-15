@@ -12,6 +12,13 @@ body {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande';
 }
 
+//Warning-box if no input is given
+#infobox {
+    display: none;
+    width: 100%;
+    background-color: red;
+}
+
 #app {
     display: grid;
     grid-auto-rows: minmax(150px);

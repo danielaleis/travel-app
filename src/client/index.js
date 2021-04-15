@@ -1,7 +1,7 @@
 import { handleInput } from './js/app'
-import { dateChecker } from './js/handleDate'
+import { chooseForecastForTravelDate } from './js/handleDate'
 import { calculateDaysUntilTrip } from './js/handleDate'
-
+import { validateInput } from './js/validateInput'
 
 import './styles/main.scss';
 import './styles/reset.scss';
@@ -13,7 +13,8 @@ import './styles/reset.scss';
 export {
    handleInput,
    calculateDaysUntilTrip,
-   dateChecker
+   chooseForecastForTravelDate,
+   validateInput
     }
 
 console.log("CHANGE!!");

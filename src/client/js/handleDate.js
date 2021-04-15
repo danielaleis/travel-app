@@ -11,13 +11,13 @@ function calculateDaysUntilTrip(trip) {
     //returning how many days until trip
 }
 
-async function dateChecker(weatherResponse, trip) {
+async function chooseForecastForTravelDate(weatherResponse, trip) {
+        //Choosing the appropriate day out of the 16 day forecast
     let result = {};
-    console.log("::: Running dateChecker :::", trip.date);
+    console.log("::: Running chooseForecastForTravelDate :::", trip.date);
     console.log(weatherResponse.data);
     for (const item in weatherResponse.data) {
         if (trip.date == weatherResponse.data[item].datetime) {
-            console.log("funzt!")
             result = weatherResponse.data[item];
         };
         console.log(`${weatherResponse.data[item].datetime}`);
@@ -29,5 +29,5 @@ async function dateChecker(weatherResponse, trip) {
 
 export {
     calculateDaysUntilTrip,
-    dateChecker
+    chooseForecastForTravelDate
 }
