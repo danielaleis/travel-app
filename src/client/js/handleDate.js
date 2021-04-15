@@ -1,29 +1,29 @@
-function calculateDaysUntilTrip(tripStartDate) {
+function calculateDaysUntilTrip(trip) {
     const today = new Date();
-    const start = new Date(tripStartDate);
+    const start = new Date(trip.date);
     //calculating how many days until trip starts
     const countdown = Math.round((start.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 
-    console.log("::: Running calculateDaysUntilTrip :::", tripStartDate);
+    console.log("::: Running calculateDaysUntilTrip :::", trip.date);
     return {
-        countdown: countdown
+        countdown
     };
     //returning how many days until trip
 }
 
-async function dateChecker(weatherResponse, date) {
-
-    console.log("::: Running dateChecker :::", date);
+async function dateChecker(weatherResponse, trip) {
+    let result = {};
+    console.log("::: Running dateChecker :::", trip.date);
     console.log(weatherResponse.data);
     for (const item in weatherResponse.data) {
-        if (date == weatherResponse.data[item].datetime) {
+        if (trip.date == weatherResponse.data[item].datetime) {
             console.log("funzt!")
+            result = weatherResponse.data[item];
         };
         console.log(`${weatherResponse.data[item].datetime}`);
     }
-    let weatherDate = "";
     return {
-        weatherDate
+        result
     };
 }
 

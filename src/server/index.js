@@ -58,7 +58,7 @@ app.get('/', function (req, res) {
 //add post request 
 app.post("/geodata", async (req, res) => {
     let queryInput = "";
-    queryInput = "q=" + encodeURI(req.body.location);
+    queryInput = "q=" + encodeURI(req.body.queryObject.location);
     const fetchURL = (`${geonamesURL}?${geonamesApiKey}&${geonamesRows}&${queryInput}`)
     const apiData = await fetch(fetchURL, {
         method: 'POST'
@@ -66,14 +66,12 @@ app.post("/geodata", async (req, res) => {
 
     try {
         const data = await apiData.json();
-        let coordinates = {
-            location: req.body.location,
+        let result = {
             lat: data.geonames[0].lat,
             lng: data.geonames[0].lng,
             country: data.geonames[0].countryName
         };
-        //create object to later pass geodate to weatherAPI
-        res.send(coordinates)
+        res.send(result)
     } catch (err) {
         console.log("error", err);
     }
@@ -82,11 +80,11 @@ app.post("/geodata", async (req, res) => {
 app.post("/weatherdata", async (req, res) => {
     let queryInput = "";
     let fetchURL = "";
-    if (req.body.trip.daysUntilTrip <= 16) {
-        queryInput = (`lat=${req.body.trip.lat}&lon=${req.body.trip.lng}`)
+    if (req.body.queryObject.daysUntilTrip <= 16) {
+        queryInput = (`lat=${req.body.queryObject.lat}&lon=${req.body.queryObject.lng}`)
         fetchURL = (`${weatherbitForecast}?${weatherbitApiKey}&${queryInput}`)
     } else {
-        queryInput = (`lat=${req.body.trip.lat}&lon=${req.body.trip.lng}`)
+        queryInput = (`lat=${req.body.queryObject.lat}&lon=${req.body.queryObject.lng}`)
         fetchURL = (`${weatherbitCurrent}?${weatherbitApiKey}&${queryInput}`)
     }
     console.log(fetchURL);
@@ -108,13 +106,13 @@ app.post("/pixabaydata", async (req, res) => {
     let queryInput = "";
     let fetchURL = "";
     let noDestinationPics = "";
-    if (req.body.trip.noDestinationPics == false) {
+    if (req.body.queryObject.noDestinationPics == false) {
         console.log("Destination returned")
-        queryInput = "q=" + encodeURI(req.body.trip.location);
+        queryInput = "q=" + encodeURI(req.body.queryObject.location);
         fetchURL = (`${pixabayURL}?${pixabayApiKey}&${pixabayParameters}&${queryInput}`)
-    } else if (req.body.trip.noDestinationPics == true) {
+    } else if (req.body.queryObject.noDestinationPics == true) {
         console.log("Country returned")
-        queryInput = "q=" + encodeURI(req.body.trip.country);
+        queryInput = "q=" + encodeURI(req.body.queryObject.country);
         fetchURL = (`${pixabayURL}?${pixabayApiKey}&${pixabayParameters}&${queryInput}`)
         //Get a photo for the country, if no picture is found for the users destination
     }

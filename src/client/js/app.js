@@ -11,37 +11,47 @@ document.getElementById("generate").addEventListener('click', handleInput);
 
 // Function that is triggered after user clicks the button
 async function handleInput() {
-    const location = document.getElementById("location").value;
-    const date = document.getElementById("date").value;
-    console.log(date);
-    const coordinates = await callGeodatesApi(location);
-    let trip = ""
-    trip = {
-        lat: coordinates.lat,
-        lng: coordinates.lng,
-        country: coordinates.country,
-        location: coordinates.location,
-        noDestinationPics: false
-    };
-    let pixabayResponse = await callPixabayApi(trip);
+
+    // object that stores the parameters for api-calls
+    let trip = {};
+
+    // get user input into the object
+    trip.location = document.getElementById("location").value;
+    trip.date = document.getElementById("date").value;
+
+    // Call Geodates-Api with trip-data provided
+    const coordinates = await callApi("http://localhost:8080/geodata", trip);
+    trip.lat = coordinates.lat;
+    trip.lng = coordinates.lng;
+    trip.country = coordinates.country;
+
+    // Call Pixabay-Api with trip-data provided
+    trip.noDestinationPics = false;
+    let pixabayResponse = await callApi("http://localhost:8080/pixabaydata", trip);
+    // If there is no picture for the destination, call the api a second time to get a country-pic
     if (pixabayResponse.noDestinationPics) {
         trip.noDestinationPics = true;
-        pixabayResponse = await callPixabayApi(trip);
+        pixabayResponse = await callApi("http://localhost:8080/pixabaydata", trip);
     }
-    let countdown = await calculateDaysUntilTrip(date);
-    trip.image = pixabayResponse.url
-    trip.date = date;
-    trip.daysUntilTrip = countdown.countdown;
-    const weatherResponse = await callWeatherApi(trip);
-    console.log(weatherResponse);
-    const dateResponse = await dateChecker(weatherResponse, date)
+    trip.image = pixabayResponse.url;
+
+    // Get data ready for WeatherBit-Api: calculate Days until trip. 
+    let countdown = await calculateDaysUntilTrip(trip);
+    trip.daysUntilTrip = countdown;
+
+    // Call weatherBit-api 
+    const weatherResponse = await callApi("http://localhost:8080/weatherdata", trip);
+    trip.weather = weatherResponse;
+    console.log(trip);
+    const dateResponse = await dateChecker(weatherResponse, date);
     console.log(dateResponse);
     const response = await updateUI(trip);
 
 }
 
-async function callGeodatesApi(location) {
-    const response = await fetch("http://localhost:8080/geodata", {
+//Function to call all three apis
+async function callApi(queryURL, queryObject) {
+    const response = await fetch(queryURL, {
         method: "POST",
         cache: "no-cache",
         credentials: "same-origin",
@@ -49,7 +59,7 @@ async function callGeodatesApi(location) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            location
+            queryObject
         }),
 
     })
@@ -61,48 +71,8 @@ async function callGeodatesApi(location) {
     }
 }
 
-async function callWeatherApi(trip) {
-    const response = await fetch("http://localhost:8080/weatherdata", {
-        method: "POST",
-        cache: "no-cache",
-        credentials: "same-origin",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            trip
-        }),
-    })
-    try {
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.log("error", error);
-    }
-}
 
-async function callPixabayApi(trip) {
-    const response = await fetch("http://localhost:8080/pixabaydata", {
-        method: "POST",
-        cache: "no-cache",
-        credentials: "same-origin",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            trip
-        }),
-    })
-    try {
-        const data = await response.json();
-        console.log(data);
-        return data;
-    } catch (error) {
-        console.log("error", error);
-    }
-}
-
-
+//Get the data to be displayed in the travel-app
 async function updateUI(trip) {
     // Get the gathered data and get it to be displayed in the travel-app
     document.querySelector('#image').innerHTML = "<img src=" + trip.image + ">";
