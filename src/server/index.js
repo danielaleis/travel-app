@@ -71,6 +71,7 @@ app.post("/geodata", async (req, res) => {
             lng: data.geonames[0].lng,
             country: data.geonames[0].countryName
         };
+        //create object to later pass geodate to weatherAPI
         res.send(result)
     } catch (err) {
         console.log("error", err);

@@ -38,6 +38,7 @@ async function handleInput() {
     // Get data ready for WeatherBit-Api: calculate Days until trip. 
     let countdown = await calculateDaysUntilTrip(trip);
     trip.daysUntilTrip = countdown;
+    console.log(countdown);
 
     // Call weatherBit-api 
     const weatherResponse = await callApi("http://localhost:8080/weatherdata", trip);
