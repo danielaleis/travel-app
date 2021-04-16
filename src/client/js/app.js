@@ -22,8 +22,8 @@ async function handleInput() {
 
     // get user input into the object
     trip.location = document.getElementById("location").value;
-    console.log(trip.location);
     trip.date = document.getElementById("date").value;
+    console.log(trip.date);
     if (validateInput(trip)) {
         // Call Geodates-Api with trip-data provided
         const coordinates = await callApi("http://localhost:8080/geodata", trip);
@@ -44,23 +44,16 @@ async function handleInput() {
         // Get data ready for WeatherBit-Api: calculate Days until trip. 
         let countdown = await calculateDaysUntilTrip(trip);
         trip.daysUntilTrip = countdown;
-        console.log(countdown);
 
-        //VORLAGE
-        // const coordinates = await callApi("http://localhost:8080/geodata", trip);
-        // trip.lat = coordinates.lat;
-        // trip.lng = coordinates.lng;
-        // trip.country = coordinates.country;
 
         // Call weatherBit-api 
         const weatherResponse = await callApi("http://localhost:8080/weatherdata", trip);
-        trip.weather = weatherResponse;
-        //trip.weather.temp = weatherResponse.temp;
-        console.log(trip);
-        const dateResponse = await chooseForecastForTravelDate(weatherResponse, date);
-        console.log(dateResponse);
+        trip.weatherResponse = weatherResponse;
+        const dateResponse = await chooseForecastForTravelDate(weatherResponse, trip);
+        trip.weather = dateResponse;
         const response = await updateUI(trip);
-
+        console.log("weatherResponse");
+        console.log(weatherResponse);
     }
 }
 
@@ -90,11 +83,14 @@ async function callApi(queryURL, queryObject) {
 //Get the data to be displayed in the travel-app
 async function updateUI(trip) {
     document.body.style.backgroundImage = "url(" + trip.image + ")";
-    document.querySelector('#result').innerHTML = "The weather on " + trip.date + " in " + trip.location;
-    document.querySelector('#weathericon').innerHTML = '<img src="https://www.weatherbit.io/static/img/icons/' + trip.weather.data[0].weather.icon + '.png" >';
-    document.querySelector('#weather').innerHTML = trip.weather.data[0].weather.description;
-    document.querySelector('#temp').innerHTML = "The temperature is " + trip.weather.data[0].temp + " &#8451";
-    document.querySelector('#tempfeels').innerHTML = "It feels like " + trip.weather.data[0].app_temp + " &#8451";
+    if (trip.daysUntilTrip.countdown <=16) {
+        document.querySelector('#result').innerHTML = "The weather on " + trip.date + " in " + trip.location;
+    } else {
+        document.querySelector('#result').innerHTML = "No forecast available:<br> The current weather in " + trip.location + " is";
+    }
+    document.querySelector('#weathericon').innerHTML = '<img src="https://www.weatherbit.io/static/img/icons/' + trip.weatherResponse.data[0].weather.icon + '.png" >';
+    document.querySelector('#weather').innerHTML = trip.weatherResponse.data[0].weather.description;
+    document.querySelector('#temp').innerHTML = "The temperature is " + trip.weatherResponse.data[0].temp + " &#8451";
     document.querySelector('#countdown').innerHTML = "It is " + trip.daysUntilTrip.countdown + " days until your trip starts!";
 };
 

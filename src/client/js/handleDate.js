@@ -14,13 +14,14 @@ function calculateDaysUntilTrip(trip) {
 async function chooseForecastForTravelDate(weatherResponse, trip) {
         //Choosing the appropriate day out of the 16 day forecast
     let result = {};
+    console.log(trip);
     console.log("::: Running chooseForecastForTravelDate :::", trip.date);
     console.log(weatherResponse.data);
     for (const item in weatherResponse.data) {
-        if (trip.date == weatherResponse.data[item].datetime) {
+        if (trip.date == weatherResponse.data[item].datetime.slice(0,10)) {
             result = weatherResponse.data[item];
         };
-        console.log(`${weatherResponse.data[item].datetime}`);
+        console.log(`${weatherResponse.data[item].datetime.slice(0,10)}`);
     }
     return {
         result

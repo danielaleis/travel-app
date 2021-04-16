@@ -71,13 +71,16 @@ app.post("/geodata", async (req, res) => {
 app.post("/weatherdata", async (req, res) => {
     let queryInput = "";
     let fetchURL = "";
-    if (req.body.queryObject.daysUntilTrip <= 16) {
+    console.log("object dingens")
+    console.log(req.body.queryObject);
+    if (req.body.queryObject.daysUntilTrip.countdown <= 16) {
         queryInput = (`lat=${req.body.queryObject.lat}&lon=${req.body.queryObject.lng}`)
         fetchURL = (`${weatherbitForecast}?${weatherbitApiKey}&${queryInput}`)
     } else {
         queryInput = (`lat=${req.body.queryObject.lat}&lon=${req.body.queryObject.lng}`)
         fetchURL = (`${weatherbitCurrent}?${weatherbitApiKey}&${queryInput}`)
     }
+    console.log("hier current und forecast?");
     console.log(fetchURL);
     const apiData = await fetch(fetchURL, {
         method: 'POST'
