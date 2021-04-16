@@ -46,9 +46,16 @@ if (validateInput(trip)){
     trip.daysUntilTrip = countdown;
     console.log(countdown);
 
+    //VORLAGE
+    // const coordinates = await callApi("http://localhost:8080/geodata", trip);
+    // trip.lat = coordinates.lat;
+    // trip.lng = coordinates.lng;
+    // trip.country = coordinates.country;
+
     // Call weatherBit-api 
     const weatherResponse = await callApi("http://localhost:8080/weatherdata", trip);
     trip.weather = weatherResponse;
+    //trip.weather.temp = weatherResponse.temp;
     console.log(trip);
     const dateResponse = await chooseForecastForTravelDate(weatherResponse, date);
     console.log(dateResponse);
@@ -82,10 +89,15 @@ async function callApi(queryURL, queryObject) {
 //Get the data to be displayed in the travel-app
 async function updateUI(trip) {
     // Get the gathered data and get it to be displayed in the travel-app
+    // const response = await fetch('/all');
+    // const latestData = await response.json();
     document.querySelector('#image').innerHTML = "<img src=" + trip.image + ">";
-    document.querySelector('#result').innerHTML = "The weather on " + trip.date + " is ";
-    //document.querySelector('#weather').innerHTML = latestData.weather + " &#8451";
-    //document.querySelector('#countdown').innerHTML = "It is " + latestData.date + " until your trip starts";
+    document.querySelector('#result').innerHTML = "The weather on " + trip.date + " in " + trip.location;
+    document.querySelector('#weathericon').innerHTML = '<img src="https://www.weatherbit.io/static/img/icons/' + trip.weather.data[0].weather.icon + '.png" >' ;
+    document.querySelector('#weather').innerHTML = trip.weather.data[0].weather.description;
+    document.querySelector('#temp').innerHTML = "The temperature is " + trip.weather.data[0].temp + " &#8451";
+    document.querySelector('#tempfeels').innerHTML = "It feels like " + trip.weather.data[0].app_temp + " &#8451";
+    // document.querySelector('#countdown').innerHTML = "It is " + trip.daysUntilTrip + " days until your trip starts";
 };
 
 export {

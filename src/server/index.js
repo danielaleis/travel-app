@@ -1,9 +1,6 @@
-// Setup empty JS object to act as endpoint for all routes
-projectData = {};
-
+// for using environmental variables and hiding the api key
 const dotenv = require('dotenv');
 dotenv.config();
-// for using environmental variables and hiding the api key
 
 var path = require('path')
 const express = require('express')
@@ -37,25 +34,17 @@ const geonamesRows = "maxRows=1";
 const weatherbitApiKey = `key=${process.env.Weatherbit_API_key}`;
 const weatherbitForecast = 'https://api.weatherbit.io/v2.0/forecast/daily';
 const weatherbitCurrent = 'https://api.weatherbit.io/v2.0/current';
-// days=[integer] (optional: return a specific number of forecast days)
-// 16 - [DEFAULT] 16 days
-// Example_Current: https://api.weatherbit.io/v2.0/current?lat=35.7796&lon=-78.6382&key=API_KEY&include=minutely
 
 const pixabayApiKey = `key=${process.env.Pixabay_API_key}`;
 const pixabayURL = 'https://pixabay.com/api/';
 const pixabayParameters = "image_type=photo&orientation=horizontal&safesearch=true&category=places";
-// &order=popular&category=places
-// &per_page=3
-// https://pixabay.com/api/?
-// key=21125110-814a4600f5e0102f5a6b4bc53&
-// q=yellow+flowers&image_type=photo
 
-//add GET request 
+// Add route for start page 
 app.get('/', function (req, res) {
     res.send('dist/index.html');
 });
 
-//add post request 
+// Add Endpoint for Geonames-Api 
 app.post("/geodata", async (req, res) => {
     let queryInput = "";
     queryInput = "q=" + encodeURI(req.body.queryObject.location);
@@ -78,6 +67,7 @@ app.post("/geodata", async (req, res) => {
     }
 });
 
+// Add Endpoint for WeatherBit-Api 
 app.post("/weatherdata", async (req, res) => {
     let queryInput = "";
     let fetchURL = "";
@@ -103,6 +93,7 @@ app.post("/weatherdata", async (req, res) => {
 
 });
 
+// Add Endpoint for Pixabay-Api 
 app.post("/pixabaydata", async (req, res) => {
     let queryInput = "";
     let fetchURL = "";

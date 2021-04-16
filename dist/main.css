@@ -1,12 +1,13 @@
 body {
-  background: #fffff8;
+  background: linear-gradient(0deg, #cb88c7 0%, #62035c 100%);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   min-height: 100vh;
   max-width: 100vw;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande'; }
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande';
+  color: #fff; }
 
 #infobox {
   display: none;
@@ -19,7 +20,7 @@ body {
   grid-template-columns: auto;
   padding: 20px 20px 100px 20px;
   height: auto;
-  background: #6464db;
+  background: #ff7300;
   border-radius: 8px;
   color: white;
   justify-content: center;
@@ -71,8 +72,8 @@ input {
   display: block;
   height: 30px;
   width: 320px;
-  background: #ec73ec;
-  color: white;
+  background: white;
+  color: #738dec;
   border: none;
   border-radius: 5px;
   font-size: 20px;
@@ -80,18 +81,18 @@ input {
   border: none; }
 
 button {
-  width: 100px;
+  width: 150px;
   height: 50px;
   background: WHITE;
-  color: #a73948;
+  color: orange;
   font-size: 26px;
   font-family: 'Oswald', sans-serif;
   border: none;
   border-radius: 5px;
-  box-shadow: 2px 4px 5px #444; }
+  box-shadow: 2px 4px 5px #62035c; }
 
 button:hover {
-  background-color: #ec73ec; }
+  background-color: #738dec; }
 
 h1 {
   font-size: 75px; }
@@ -116,17 +117,17 @@ button:focus {
 /* Style for Placeholder Text*/
 ::placeholder {
   /* Firefox, Chrome, Opera */
-  color: #a73948;
+  color: orange;
   font-family: 'Oswald', sans-serif; }
 
 :-ms-input-placeholder {
   /* Internet Explorer 10-11 */
-  color: #a73948 3a;
+  color: orange;
   font-family: 'Oswald', sans-serif; }
 
 ::-ms-input-placeholder {
   /* Microsoft Edge */
-  color: #a73948 a;
+  color: orange;
   font-family: 'Oswald', sans-serif; }
 
 /* http://meyerweb.com/eric/tools/css/reset/
@@ -181,6 +182,18 @@ table {
 
 ul {
   list-style-type: none; }
+
+footer {
+  display: flex;
+  justify-content: center;
+  padding: 10px 40px;
+  width: 100%;
+  border: 25px;
+  padding: 10em;
+  color: white; }
+
+#copyright {
+  color: orange; }
 
 
 /*# sourceMappingURL=main.css.map*/
