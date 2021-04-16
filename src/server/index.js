@@ -118,7 +118,7 @@ app.post("/pixabaydata", async (req, res) => {
         console.log(data);
         let imageData = ""
         if (data.total > 0) {
-            imageData = data.hits[0].webformatURL
+            imageData = data.hits[0].largeImageURL
             noDestinationPics = false;
         } else {
             noDestinationPics = true;
