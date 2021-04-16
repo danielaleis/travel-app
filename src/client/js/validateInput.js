@@ -5,7 +5,7 @@ function validateInput(trip) {
            document.querySelector('#infobox').style.display = "block";
            document.querySelector('#infobox').innerHTML = "The input was empty";
         return false;
-    } else {
+    } else if (document.querySelector('#infobox') !== null){
         document.querySelector('#infobox').style.display = "none";
 
     }
