@@ -20,7 +20,9 @@ body {
 // Warning-box if no input is given
 #infobox {
     display: none;
+    height: 50px;
     width: 100%;
+    padding: 15px;
     background-color: red;
 }
 

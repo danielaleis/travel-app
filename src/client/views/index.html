@@ -25,7 +25,7 @@
     </div>
     <div class="holder date">
       <label for="date">When................?</label>
-      <input type="date" id="date" name="trip-start" placeholder="Pick your travel date">
+      <input type="date" id="date" name="trip-start" placeholder="Pick date (Example: 2021-05-05)">
     </div>
     <div id="button_holder"> <button id="generate" type="submit"> Go explore! </button></div>
     <div class="holder entry">
@@ -44,6 +44,13 @@
     <div id="copyright">
       _built by Daniela Leistikow</div>
   </footer>
+  <script>
+    if('serviceWorker' in navigator){
+        window.addEventListener('load', () =>{
+            navigator.serviceWorker.register('/service-worker.js');
+        });
+    }
+</script>
 </body>
 
 </html>
