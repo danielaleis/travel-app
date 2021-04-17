@@ -7,7 +7,7 @@ body {
   align-items: left;
   min-height: 100vh;
   max-width: 100vw;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande';
+  font-family: "Oswald", sans-serif;
   color: #fff;
   /* Center and scale the image nicely */
   background-position: center;
@@ -17,7 +17,9 @@ body {
 
 #infobox {
   display: none;
+  height: 50px;
   width: 100%;
+  padding: 15px;
   background-color: red; }
 
 .headline {
@@ -38,7 +40,7 @@ body {
   justify-content: left;
   grid-gap: 1em;
   font-size: 20px;
-  font-family: 'Oswald', sans-serif; }
+  font-family: "Oswald", sans-serif; }
 
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
@@ -119,9 +121,6 @@ ul {
   padding: 25px;
   margin: 10px 0px 0px 0px; }
 
-.visiblefont {
-  opacity: 8; }
-
 #date {
   padding: 25px;
   margin: 10px 0px 0px 0px; }
@@ -142,7 +141,7 @@ input {
   border: none;
   border-radius: 5px;
   font-size: 20px;
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
   border: none; }
 
 #button_holder {
@@ -155,7 +154,7 @@ button {
   background: #46b59b;
   color: white;
   font-size: 26px;
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
   border: none;
   border-radius: 5px;
   box-shadow: 2px 4px 5px #efa032; }
@@ -167,22 +166,22 @@ button:hover {
 ::placeholder {
   /* Firefox, Chrome, Opera */
   color: #efa032;
-  font-family: 'Oswald', sans-serif; }
+  font-family: "Oswald", sans-serif; }
 
 :-ms-input-placeholder {
   /* Internet Explorer 10-11 */
   color: #efa032;
-  font-family: 'Oswald', sans-serif; }
+  font-family: "Oswald", sans-serif; }
 
 ::-ms-input-placeholder {
   /* Microsoft Edge */
   color: #efa032;
-  font-family: 'Oswald', sans-serif; }
+  font-family: "Oswald", sans-serif; }
 
 ::-webkit-input-placeholder {
   /* Safari */
   color: #efa032;
-  font-family: 'Oswald', sans-serif; }
+  font-family: "Oswald", sans-serif; }
 
 .title {
   display: none;
