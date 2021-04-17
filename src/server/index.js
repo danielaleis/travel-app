@@ -27,15 +27,15 @@ app.listen(8080, function () {
 })
 
 // Set up the variables to call the API 
-const geonamesApiKey = `username=${process.env.Geonames_API_key}`;
+const geonamesApiKey = `username=${process.env.GEONAMES_API}`;
 const geonamesURL = 'http://api.geonames.org/searchJSON'
 const geonamesRows = "maxRows=1";
 
-const weatherbitApiKey = `key=${process.env.Weatherbit_API_key}`;
+const weatherbitApiKey = `key=${process.env.WEATHERBIT_API}`;
 const weatherbitForecast = 'https://api.weatherbit.io/v2.0/forecast/daily';
 const weatherbitCurrent = 'https://api.weatherbit.io/v2.0/current';
 
-const pixabayApiKey = `key=${process.env.Pixabay_API_key}`;
+const pixabayApiKey = `key=${process.env.PIXABAY_API}`;
 const pixabayURL = 'https://pixabay.com/api/';
 const pixabayParameters = "image_type=photo&safesearch=true&category=places";
 
