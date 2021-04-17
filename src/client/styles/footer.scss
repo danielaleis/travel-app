@@ -1,3 +1,4 @@
+@import 'variables';
 
 footer {
     display: flex;
@@ -5,10 +6,10 @@ footer {
     padding: 10px;
     width: 100%;
     border: 25px; 
-    background-color: grey;
+    background-color: $primary-color;
     color: white;
 }
 
 #copyright {
-    color: orange;
+    color: $secondary-color;
 }

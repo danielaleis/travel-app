@@ -33,6 +33,12 @@ async function handleInput() {
 
         // Call Pixabay-Api with trip-data provided
         trip.noDestinationPics = false;
+        //change picture format to vertical for smaller screens
+        if (document.body.clientWidth < document.body.clientHeight) {
+            trip.pixabayPictureOrientation = "orientation=vertical";
+        } else {
+            trip.pixabayPictureOrientation = "orientation=horizontal";
+        }
         let pixabayResponse = await callApi("http://localhost:8080/pixabaydata", trip);
         // If there is no picture for the destination, call the api a second time to get a country-pic
         if (pixabayResponse.noDestinationPics) {
@@ -82,8 +88,10 @@ async function callApi(queryURL, queryObject) {
 
 //Get the data to be displayed in the travel-app
 async function updateUI(trip) {
+    document.querySelector('.title').style.display = "block";
+    document.querySelector('#entryHolder').style.display = "block";
     document.body.style.backgroundImage = "url(" + trip.image + ")";
-    if (trip.daysUntilTrip.countdown <=16) {
+    if (trip.daysUntilTrip.countdown <= 16) {
         document.querySelector('#result').innerHTML = "The weather on " + trip.date + " in " + trip.location;
     } else {
         document.querySelector('#result').innerHTML = "No forecast available:<br> The current weather in " + trip.location + " is";

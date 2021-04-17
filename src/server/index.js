@@ -37,7 +37,8 @@ const weatherbitCurrent = 'https://api.weatherbit.io/v2.0/current';
 
 const pixabayApiKey = `key=${process.env.Pixabay_API_key}`;
 const pixabayURL = 'https://pixabay.com/api/';
-const pixabayParameters = "image_type=photo&orientation=horizontal&safesearch=true&category=places";
+const pixabayParameters = "image_type=photo&safesearch=true&category=places";
+const pixabayPictureOrientation = "orientation=horizontal";
 
 // Add route for start page 
 app.get('/', function (req, res) {
@@ -101,14 +102,15 @@ app.post("/pixabaydata", async (req, res) => {
     let queryInput = "";
     let fetchURL = "";
     let noDestinationPics = "";
+    let pixabayPictureOrientation = req.body.queryObject.pixabayPictureOrientation;
     if (req.body.queryObject.noDestinationPics == false) {
         console.log("Destination returned")
         queryInput = "q=" + encodeURI(req.body.queryObject.location);
-        fetchURL = (`${pixabayURL}?${pixabayApiKey}&${pixabayParameters}&${queryInput}`)
+        fetchURL = (`${pixabayURL}?${pixabayApiKey}&${pixabayParameters}&${pixabayPictureOrientation}&${queryInput}`)
     } else if (req.body.queryObject.noDestinationPics == true) {
         console.log("Country returned")
         queryInput = "q=" + encodeURI(req.body.queryObject.country);
-        fetchURL = (`${pixabayURL}?${pixabayApiKey}&${pixabayParameters}&${queryInput}`)
+        fetchURL = (`${pixabayURL}?${pixabayApiKey}&${pixabayParameters}&${pixabayPictureOrientation}&${queryInput}`)
         //Get a photo for the country, if no picture is found for the users destination
     }
     console.log(fetchURL);
