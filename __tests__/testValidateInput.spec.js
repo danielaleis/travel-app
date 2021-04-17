@@ -10,12 +10,4 @@ describe("Testing the validateInput", () => {
         expect(inputType).toBe(expectedResult);
         window.alert = jsdomAlert;  // restore the jsdom alert
     });
-//     test('testing negative case', () => {
-//         const jsdomAlert = window.alert;  // remember the jsdom alert
-//   window.alert = () => {};  // provide an empty implementation for window.alert
-//         const testInput = {location:""}
-//         const inputType = validateInput(testInput)
-//         const expectedResult = false;
-//         expect(inputType).toBe(expectedResult);
-//     });
 });

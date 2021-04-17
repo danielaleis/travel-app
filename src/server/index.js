@@ -129,3 +129,10 @@ app.post("/pixabaydata", async (req, res) => {
     }
 
 });
+
+// Endpoint for testing express server
+app.get('/testServer', async (req, res) => {
+    res.json({msg: 'Endpoint test is successful'})
+  })
+
+  module.exports = app;
