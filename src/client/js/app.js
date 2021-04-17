@@ -9,8 +9,6 @@ const {
     validateInput
 } = require("./validateInput");
 
-
-
 // Listening for click and then running handleInput-Function
 document.getElementById("generate").addEventListener('click', handleInput);
 
@@ -23,7 +21,6 @@ async function handleInput() {
     // get user input into the object
     trip.location = document.getElementById("location").value;
     trip.date = document.getElementById("date").value;
-    console.log(trip.date);
     if (validateInput(trip)) {
         // Call Geodates-Api with trip-data provided
         const coordinates = await callApi("http://localhost:8080/geodata", trip);
@@ -52,14 +49,12 @@ async function handleInput() {
         trip.daysUntilTrip = countdown;
 
 
-        // Call weatherBit-api 
+        // Call weatherbit-api 
         const weatherResponse = await callApi("http://localhost:8080/weatherdata", trip);
         trip.weatherResponse = weatherResponse;
         const dateResponse = await chooseForecastForTravelDate(weatherResponse, trip);
         trip.weather = dateResponse;
         const response = await updateUI(trip);
-        console.log("weatherResponse");
-        console.log(weatherResponse);
     }
 }
 
@@ -91,6 +86,7 @@ async function updateUI(trip) {
     document.querySelector('.title').style.display = "block";
     document.querySelector('#entryHolder').style.display = "block";
     document.body.style.backgroundImage = "url(" + trip.image + ")";
+    //Show a different message depending on which forecast is displayed
     if (trip.daysUntilTrip.countdown <= 16) {
         document.querySelector('#result').innerHTML = "The weather on " + trip.date + " in " + trip.location;
     } else {

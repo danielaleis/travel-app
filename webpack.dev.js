@@ -16,7 +16,7 @@ module.exports = {
         libraryTarget: 'var',
         library: 'Client',
     },
-    // stats: 'verbose',
+    stats: 'verbose',
     module: {
         rules: [{
                 test: '/\.js$/',

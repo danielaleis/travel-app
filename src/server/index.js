@@ -38,7 +38,6 @@ const weatherbitCurrent = 'https://api.weatherbit.io/v2.0/current';
 const pixabayApiKey = `key=${process.env.Pixabay_API_key}`;
 const pixabayURL = 'https://pixabay.com/api/';
 const pixabayParameters = "image_type=photo&safesearch=true&category=places";
-const pixabayPictureOrientation = "orientation=horizontal";
 
 // Add route for start page 
 app.get('/', function (req, res) {
@@ -56,24 +55,23 @@ app.post("/geodata", async (req, res) => {
 
     try {
         const data = await apiData.json();
+        //create object to later pass geodate to weatherAPI
         let result = {
             lat: data.geonames[0].lat,
             lng: data.geonames[0].lng,
             country: data.geonames[0].countryName
         };
-        //create object to later pass geodate to weatherAPI
         res.send(result)
     } catch (err) {
         console.log("error", err);
     }
 });
 
-// Add Endpoint for WeatherBit-Api 
+// Add endpoint for weatherbit-API 
 app.post("/weatherdata", async (req, res) => {
     let queryInput = "";
     let fetchURL = "";
-    console.log("object dingens")
-    console.log(req.body.queryObject);
+    // Fetch the right URL depending on the travel date  
     if (req.body.queryObject.daysUntilTrip.countdown <= 16) {
         queryInput = (`lat=${req.body.queryObject.lat}&lon=${req.body.queryObject.lng}`)
         fetchURL = (`${weatherbitForecast}?${weatherbitApiKey}&${queryInput}`)
@@ -81,15 +79,12 @@ app.post("/weatherdata", async (req, res) => {
         queryInput = (`lat=${req.body.queryObject.lat}&lon=${req.body.queryObject.lng}`)
         fetchURL = (`${weatherbitCurrent}?${weatherbitApiKey}&${queryInput}`)
     }
-    console.log("hier current und forecast?");
-    console.log(fetchURL);
     const apiData = await fetch(fetchURL, {
         method: 'POST'
     });
 
     try {
         const data = await apiData.json();
-        console.log(data)
         res.send(data)
     } catch (err) {
         console.log("error", err);
@@ -97,30 +92,26 @@ app.post("/weatherdata", async (req, res) => {
 
 });
 
-// Add Endpoint for Pixabay-Api 
+// Add endpoint for Pixabay-Api 
 app.post("/pixabaydata", async (req, res) => {
     let queryInput = "";
     let fetchURL = "";
     let noDestinationPics = "";
     let pixabayPictureOrientation = req.body.queryObject.pixabayPictureOrientation;
+    //Get a photo for the country, if no picture is found for the users destination
     if (req.body.queryObject.noDestinationPics == false) {
-        console.log("Destination returned")
         queryInput = "q=" + encodeURI(req.body.queryObject.location);
         fetchURL = (`${pixabayURL}?${pixabayApiKey}&${pixabayParameters}&${pixabayPictureOrientation}&${queryInput}`)
     } else if (req.body.queryObject.noDestinationPics == true) {
-        console.log("Country returned")
         queryInput = "q=" + encodeURI(req.body.queryObject.country);
         fetchURL = (`${pixabayURL}?${pixabayApiKey}&${pixabayParameters}&${pixabayPictureOrientation}&${queryInput}`)
-        //Get a photo for the country, if no picture is found for the users destination
     }
-    console.log(fetchURL);
 
     const apiData = await fetch(fetchURL, {
         method: 'POST'
     })
     try {
         const data = await apiData.json();
-        console.log(data);
         let imageData = ""
         if (data.total > 0) {
             imageData = data.hits[0].largeImageURL

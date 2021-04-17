@@ -7,10 +7,6 @@
     margin: 10px 0px 0px 0px;
 }
 
-.visiblefont {
-    opacity: 8;
-}
-
 #date {
     padding: 25px;
     margin: 10px 0px 0px 0px;
@@ -21,7 +17,6 @@ label {
     font-size: 1.75em;
     text-align: center;
     background-color: $primary-color;
-    // background-color: grey;
     opacity: .8;
     border-radius: 5px;
 }
@@ -34,7 +29,7 @@ input {
     border: none;
     border-radius: 5px;
     font-size: 20px;
-    font-family: 'Oswald', sans-serif;
+    font-family: $font-family;
     border: none;
 }
 
@@ -49,11 +44,10 @@ button {
     background: #46b59b;
     color: white;
     font-size: 26px;
-    font-family: 'Oswald', sans-serif;
+    font-family: $font-family;
     border: none;
     border-radius: 5px;
     box-shadow: 2px 4px 5px $secondary-color;
-    //2px 4px 5px rgb(98, 3, 92);
 }
 
 button:hover {
@@ -64,27 +58,27 @@ button:hover {
 ::placeholder {
     /* Firefox, Chrome, Opera */
     color: $secondary-color;
-    font-family: 'Oswald', sans-serif;
+    font-family: $font-family;
 
 }
 
 :-ms-input-placeholder {
     /* Internet Explorer 10-11 */
     color: $secondary-color;
-    font-family: 'Oswald', sans-serif;
+    font-family: $font-family;
 
 }
 
 ::-ms-input-placeholder {
     /* Microsoft Edge */
     color: $secondary-color;
-    font-family: 'Oswald', sans-serif;
+    font-family: $font-family;
 
 }
 
 ::-webkit-input-placeholder {
     /* Safari */
     color: $secondary-color;
-    font-family: 'Oswald', sans-serif;
+    font-family: $font-family;
 
 }

@@ -17,5 +17,3 @@ export {
    chooseForecastForTravelDate,
    validateInput
     }
-
-console.log("CHANGE!!");
